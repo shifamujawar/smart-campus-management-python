@@ -1,0 +1,14 @@
+{% extends 'base.html' %}{% block body %}
+<div class="banner admin"><div><h3>BCA Smart Campus</h3><p>Bachelor of Computer Applications — {{C.academic_year}}</p></div><div class="yr-boxes"><div><b>{{yr[1]}}</b>1st Year</div><div><b>{{yr[2]}}</b>2nd Year</div><div><b>{{yr[3]}}</b>3rd Year</div></div></div>
+<div class="stats">
+ {{ stat('fa-user-group','#e0efff','#2563eb',st.students,'BCA Students') }}{{ stat('fa-chalkboard-user','#f3e8ff','#7c3aed',st.faculty,'BCA Faculty') }}
+ {{ stat('fa-indian-rupee-sign','#dcfce7','#16a34a', ('₹%.1fK' % (st.collected/1000)) if st.collected>=1000 else '₹%d' % st.collected,'Fees Collected') }}{{ stat('fa-credit-card','#fee2e2','#dc2626',st.pending,'Pending Fees') }}
+ {{ stat('fa-bell','#ffedd5','#ea580c',st.notices,'Active Notices') }}{{ stat('fa-bed','#cffafe','#0891b2','%d/%d' % (st.occ, st.rooms),'Hostel Occupied') }}</div>
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-bolt" style="color:var(--orange)"></i>Quick Actions</span></div><div class="card-b"><div class="qa">
+ {% for l,i,e in [('Add Student','fa-user-plus','students_add'),('Add Faculty','fa-chalkboard-user','faculty_list'),('Post Notice','fa-bell','notices'),('Fee Records','fa-credit-card','fees'),('Attendance','fa-calendar-check','attendance'),('Hostel','fa-bed','hostel'),('Library','fa-book','library'),('Assignments','fa-list-check','assignments'),('Events','fa-calendar-days','notices'),('User Accounts','fa-user-shield','accounts')] %}<a href="{{ url_for(e) }}"><i class="fa-solid {{i}}"></i>{{l}}</a>{% endfor %}</div></div></div>
+<div class="grid g32"><div class="card"><div class="card-h"><span><i class="fa-solid fa-user-group"></i>Recent BCA Students</span><a class="btn btn-o btn-sm" href="{{ url_for('students_list') }}">View All</a></div>
+ <div class="tw"><table><thead><tr><th>Student</th><th>Year</th><th>Section</th><th>Status</th><th>Action</th></tr></thead><tbody>
+ {% for s in students %}<tr><td><b>{{s.name}}</b><small>{{s.student_id}}</small></td><td><span class="badge b-blue">Year {{s.year}}</span></td><td>Sec {{s.section}}</td><td><span class="badge b-green">Active</span></td>
+  <td><a class="ibtn" href="{{ url_for('students_view', sid=s.student_id) }}"><i class="fa-solid fa-eye"></i></a> {{ delbtn(url_for('students_delete', sid=s.student_id),'Delete this student?') }}</td></tr>{% endfor %}</tbody></table></div></div>
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-bell" style="color:var(--orange)"></i>Notices</span><a class="btn btn-o btn-sm" href="{{ url_for('notices') }}">Manage</a></div>
+ {% for n in notices %}<div class="notice {{n.priority}}"><h5>{{n.title}}</h5><p>{{n.category}} · {{n.created_at|dmy('%d %b')}}</p></div>{% endfor %}</div></div>{% endblock %}

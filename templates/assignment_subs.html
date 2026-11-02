@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block body %}
+<div class="crumb"><a href="{{ url_for('assignments') }}">Assignments</a> / <b>{{a.title}}</b></div>
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-inbox"></i>Submissions — {{a.title}} ({{a.subject}}, max {{a.max_marks}})</span><a class="btn btn-o btn-sm" href="{{ url_for('assignments') }}">← Back</a></div>
+{% for x in subs %}<div class="notice" style="border-left-color:var(--purple)"><h5>{{x.name}} <small style="display:inline">({{x.student_id}} · Year {{x.year}})</small> {{ status(x.status) }}</h5><p style="color:var(--text);margin:6px 0">{{x.submission_text}}</p><small style="color:var(--muted)">Submitted {{x.submitted_at}}</small>
+<form method="post" class="filters" style="margin-top:10px"><input type="hidden" name="submission_id" value="{{x.id}}"><input type="number" step="0.5" min="0" max="{{a.max_marks}}" name="marks" placeholder="Marks" value="{{ x.marks_obtained if x.marks_obtained is not none }}" style="width:100px" required><input name="remarks" placeholder="Remarks" value="{{x.remarks or ''}}" style="width:260px"><button class="btn btn-sm">Save Marks</button></form></div>
+{% else %}{{ empty('fa-inbox','No submissions yet.') }}{% endfor %}</div>{% endblock %}

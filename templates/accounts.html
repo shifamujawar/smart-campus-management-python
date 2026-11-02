@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block body %}
+<div class="grid g21"><div class="card"><div class="card-h"><span><i class="fa-solid fa-user-shield"></i>User Accounts ({{rows|length}})</span></div><div class="tw"><table><thead><tr><th>Username</th><th>Name</th><th>Role</th><th>Linked ID</th><th></th></tr></thead><tbody>
+{% for u in rows %}<tr><td><b>{{u.username}}</b></td><td>{{u.name}}</td><td><span class="badge {{ 'b-teal' if u.role=='admin' else 'b-purple' if u.role=='faculty' else 'b-blue' }}">{{u.role}}</span></td><td>{{u.ref_id or '—'}}</td><td>{{ delbtn(url_for('accounts_delete', uid=u.id),'Delete this account?') }}</td></tr>{% endfor %}</tbody></table></div></div>
+<form method="post" class="card"><div class="card-h"><span><i class="fa-solid fa-plus"></i>Create Account</span></div><div class="card-b">
+<div class="fg"><label>Role</label><select name="role"><option>admin</option><option>faculty</option><option>student</option></select></div><div class="fg"><label>Username</label><input name="username" required></div><div class="fg"><label>Password</label><input name="password" required></div>
+<div class="fg"><label>Display name</label><input name="name"></div>
+<div class="fg"><label>Link to (student / faculty)</label><select name="ref_id"><option value="">— none (admin) —</option><optgroup label="Students">{% for s in students %}<option value="{{s.student_id}}">{{s.name}} ({{s.student_id}})</option>{% endfor %}</optgroup><optgroup label="Faculty">{% for f in faculty %}<option value="{{f.faculty_id}}">{{f.name}} ({{f.faculty_id}})</option>{% endfor %}</optgroup></select></div>
+<button class="btn"><i class="fa-solid fa-plus"></i> Create</button></div></form></div>{% endblock %}

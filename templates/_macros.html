@@ -1,0 +1,7 @@
+{% macro stat(icon, bg, fg, val, label) %}<div class="stat"><div class="ic" style="background:{{bg}};color:{{fg}}"><i class="fa-solid {{icon}}"></i></div><div><b>{{val}}</b><span>{{label}}</span></div></div>{% endmacro %}
+{% macro pbar(p) %}<div class="pc"><div class="pbar"><i class="{{ 'red' if p<50 else 'orange' if p<75 else '' }}" style="width:{{p}}%"></i></div>{{p}}%</div>{% endmacro %}
+{% macro delbtn(url, msg='Delete this record?') %}<a class="ibtn del" href="{{url}}" data-confirm="{{msg}}" title="Delete"><i class="fa-solid fa-trash"></i></a>{% endmacro %}
+{% macro empty(icon, text) %}<div class="empty"><i class="fa-solid {{icon}}"></i>{{text}}</div>{% endmacro %}
+{% macro prio(p) %}<span class="badge {{ 'b-red' if p=='High' else 'b-orange' if p=='Medium' else '' }}">{{p}}</span>{% endmacro %}
+{% macro status(s) %}<span class="badge {{ {'Paid':'b-green','Approved':'b-green','Graded':'b-green','Present':'b-green','Returned':'b-green','Active':'b-green','Pending':'b-orange','Submitted':'b-blue','Issued':'b-blue','Partial':'b-orange','Late':'b-orange','Overdue':'b-red','Rejected':'b-red','Absent':'b-red'}.get(s,'') }}">{{s}}</span>{% endmacro %}
+{% macro student_opts(studs) %}{% for s in studs %}<option value="{{s.student_id}}">{{s.name}} ({{s.student_id}}) — Year {{s.year}}</option>{% endfor %}{% endmacro %}

@@ -1,0 +1,19 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Login — BCA Smart Campus</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body class="login"><div class="orb o1"></div><div class="orb o2"></div><div class="orb o3"></div><div class="gridbg"></div>
+<div class="lw"><div class="llogo"><div class="licon"><i class="fa-solid fa-graduation-cap"></i></div><h1>BCA Smart Campus</h1><p>{{C.full}}</p><small>{{C.university}} — NEP 2020</small></div>
+ <div class="lcard"><div class="rtabs">
+   <button type="button" class="rtab on" onclick="setRole('admin',this)"><i class="fa-solid fa-shield-halved" style="color:#2dd4bf"></i>Admin</button>
+   <button type="button" class="rtab" onclick="setRole('faculty',this)"><i class="fa-solid fa-chalkboard-user" style="color:#c084fc"></i>Faculty</button>
+   <button type="button" class="rtab" onclick="setRole('student',this)"><i class="fa-solid fa-graduation-cap" style="color:#38bdf8"></i>Student</button></div>
+  {% if error %}<div class="lerr"><i class="fa-solid fa-circle-exclamation"></i> {{ error }}</div>{% endif %}
+  <form method="POST" id="lf"><label>Username</label><div class="iw"><i class="fa-solid fa-user"></i><input name="username" id="uname" placeholder="Enter username" required autocomplete="username"></div>
+   <label>Password</label><div class="iw"><i class="fa-solid fa-lock"></i><input type="password" name="password" id="pw" placeholder="Enter password" required autocomplete="current-password"></div>
+   <button class="lbtn"><i class="fa-solid fa-right-to-bracket"></i>&nbsp; Sign In</button></form>
+  <div class="demo"><h4>⚡ QUICK LOGIN</h4><div class="dg">
+   <div class="dc" onclick="qLogin('admin','admin123')"><b style="color:#2dd4bf"><i class="fa-solid fa-shield-halved"></i> Admin</b>admin / admin123</div>
+   <div class="dc" onclick="qLogin('faculty','faculty123')"><b style="color:#c084fc"><i class="fa-solid fa-chalkboard-user"></i> Faculty</b>faculty / faculty123</div>
+   <div class="dc" onclick="qLogin('student','student123')"><b style="color:#38bdf8"><i class="fa-solid fa-graduation-cap"></i> Student</b>student / student123</div></div></div></div>
+ <div class="lfoot">© {{ now.year }} Smart Campus — <i class="fa-solid fa-heart"></i> Designed &amp; Developed by <b>Shifa Mujawar</b><br><a href="/" style="color:#5eead4">← Back to homepage</a></div></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script></body></html>

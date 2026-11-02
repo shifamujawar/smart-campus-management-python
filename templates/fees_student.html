@@ -1,0 +1,8 @@
+{% extends 'base.html' %}{% block body %}
+<div class="crumb">Student / <b>Fee Status</b></div><div class="grid g2">
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-file-invoice" style="color:var(--blue)"></i>Fee Summary</span></div><div class="card-b">
+{% set due = pend|sum(attribute='amount') %}<div style="text-align:center;margin-bottom:16px"><b style="font-family:Syne;font-size:2.4rem;color:{{ 'var(--red)' if due else 'var(--green)' }}">{{ due|inr }}</b><br><span style="color:var(--muted)">Total Due Amount</span></div>
+{% for f in pend %}<div style="display:flex;justify-content:space-between;padding:10px 0;border-bottom:1px solid #f0f3f8"><div><b>{{f.fee_type}}</b><small>Total: {{f.amount|inr}} | Paid: {{f.paid_amount|inr}} · Due {{f.due_date|dmy}}</small></div>{{ status(f.status) }}</div>{% endfor %}
+{% if pend %}<form method="post" onsubmit="return confirm('Pay all outstanding fees ({{ due|inr }})?')"><button class="btn" style="width:100%;justify-content:center;margin-top:16px;background:var(--teal)"><i class="fa-solid fa-credit-card"></i> Pay All Outstanding Fees</button></form>{% else %}{{ empty('fa-circle-check','All fees are paid. 🎉') }}{% endif %}</div></div>
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-clock-rotate-left" style="color:var(--purple)"></i>Payment History</span></div><div class="tw"><table><thead><tr><th>Date</th><th>Fee Type</th><th>Amount</th><th>Status</th></tr></thead><tbody>
+{% for f in hist %}<tr><td>{{f.payment_date|dmy}}</td><td>{{f.fee_type}}</td><td>{{f.amount|inr}}</td><td>{{ status(f.status) }}</td></tr>{% else %}<tr><td colspan="4">{{ empty('fa-receipt','No payment history yet.') }}</td></tr>{% endfor %}</tbody></table></div></div></div>{% endblock %}

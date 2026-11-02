@@ -1,0 +1,54 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>BCA Smart Campus — {{C.name}}</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css"><link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body class="pub" style="scroll-behavior:smooth">
+<nav><a class="logo" href="/"><div class="brand-i"><i class="fa-solid fa-graduation-cap"></i></div><div>BCA Smart Campus<small>{{C.name}} | Demo University</small></div></a>
+ <div class="links"><a href="#features">Features</a><a href="#fees">Fees</a><a href="#faculty">Faculty</a><a href="#syllabus">Syllabus</a><a href="#notices">Notices</a><a href="{{ url_for('login') }}">Login</a></div>
+ <a class="btn-login" href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Login</a></nav>
+
+<section class="hero"><div>
+ <span class="tag"><i class="fa-solid fa-location-dot"></i> BCA (CBCS) NEP 2020 — Term II Running | {{C.academic_year}}</span>
+ <h1>Welcome to <span>BCA Smart Campus</span></h1>
+ <p>Official Digital Portal — {{C.name}}<br><small><i class="fa-solid fa-location-dot" style="color:#5eead4"></i> {{C.address}} | Code: {{C.code}}</small></p>
+ <div class="row"><a class="btn" style="background:var(--teal);padding:14px 24px;border-radius:30px;box-shadow:0 10px 30px rgba(15,118,110,.4)" href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Login to Portal</a>
+  <a class="btn" style="background:none;border:1px solid rgba(255,255,255,.2);padding:14px 24px;border-radius:30px" href="#features"><i class="fa-solid fa-compass"></i> Explore</a></div>
+ <div class="stat-row"><div><b>{{n_students}}+</b><span>STUDENTS</span></div><div><b>{{n_faculty}}</b><span>FACULTY</span></div><div><b>{{n_books}}+</b><span>BOOKS</span></div><div><b>3</b><span>YEARS</span></div></div></div>
+ <div class="floaters"><div><i class="fa-solid fa-calendar-check" style="color:#5eead4"></i> Attendance Tracking<small>Live % per subject</small></div><div><i class="fa-solid fa-list-check" style="color:#fbbf24"></i> Assignments<small>Online submit &amp; grade</small></div><div><i class="fa-solid fa-file-pen" style="color:#a78bfa"></i> Exam &amp; Results<small>Schedule &amp; marks</small></div></div>
+</section>
+
+<section class="sec" id="features"><div class="head"><span class="tg"><i class="fa-solid fa-star"></i> FEATURES</span><h2>Everything BCA Needs</h2><p>Complete digital campus management for BCA Department, {{C.name}}.</p></div>
+<div class="feats">{% for t,i,d in [('Attendance','fa-calendar-check','Subject-wise & year-wise attendance with live percentage.'),('Assignments','fa-list-check','Post, submit online, grade, and view results instantly.'),('Study Materials','fa-folder-open','Upload & download PDF, PPT, DOC, Video files.'),('Exams & Results','fa-file-pen','Schedule exams, enter marks, view performance.'),('Fee Management','fa-credit-card','Real fee structure with payment tracking.'),('Library','fa-book','Book catalog, issue/return tracking.'),('Hostel','fa-bed','Room allotment and occupancy management.'),('Notices & Events','fa-bell','Priority notices, event calendar with countdown.'),('Leave Requests','fa-file-medical','Apply leave, faculty approve/reject.'),('Campus Map','fa-map-location-dot','Interactive '+C.name+' campus map.')] %}
+ <div class="feat"><span class="n">{{ '%02d' % loop.index }}</span><i class="fa-solid {{i}}"></i><h4>{{t}}</h4><p>{{d}}</p></div>{% endfor %}</div></section>
+
+<section class="sec alt" id="fees"><div class="head"><span class="tg"><i class="fa-solid fa-indian-rupee-sign"></i> FEE STRUCTURE</span><h2>BCA Fee Structure — {{C.academic_year}}</h2><p>Actual fee structure of {{C.name}} — BCA Department.</p></div>
+<div class="feetab"><div class="top"><span><i class="fa-solid fa-building-columns"></i> {{C.name}} (B.C.A)</span><small>Academic Year {{C.academic_year}}</small></div>
+ {% for n,a in fees %}<div class="r"><span>{{n}}</span><b>{{a|inr}}</b></div>{% endfor %}<div class="r tot"><span>Total Annual Fee</span><b>{{FEE_TOTAL|inr}}</b></div></div></section>
+
+<section class="sec" id="faculty"><div class="head"><span class="tg"><i class="fa-solid fa-chalkboard-user"></i> OUR FACULTY</span><h2>BCA Department Faculty</h2><p>Experienced and dedicated faculty of BCA Department, {{C.name}}.</p></div>
+{% for f in faculty %}<div class="fcard"><div class="top"><div class="ci"><i class="fa-solid fa-chalkboard-user"></i></div><h3>{{f.name}}</h3><span class="badge" style="background:rgba(255,255,255,.2);color:#fff;margin-top:6px">{{f.designation}}</span></div>
+ <div class="bd">{{f.qualification}} — Subjects: {{f.subjects}} · {{f.faculty_id}}
+  <div style="margin-top:10px;font-size:.66rem;letter-spacing:.08em;font-weight:700">CURRENT SUBJECTS (TERM II)</div><div class="chips">{% for y in cur %}{% for sem, subs in tabs[y] %}{% if sem == cur[y] %}{% for sname, pf in subs %}{% if f.name.split()[-1] in pf %}<span>{{sname}}</span>{% endif %}{% endfor %}{% endif %}{% endfor %}{% endfor %}</div></div></div>{% endfor %}
+</section>
+
+<section class="sec alt" id="syllabus"><div class="head"><span class="tg"><i class="fa-solid fa-book"></i> SYLLABUS</span><h2>BCA Curriculum — {{C.name}}</h2><p>{{C.university}} — BCA (CBCS) NEP 2020 | Term II (Even Semesters) Running</p></div>
+<div class="syl-tabs">{% for y in tabs %}<button class="{{ 'on' if y==3 else '' }}" data-t="y{{y}}">Year {{y}}</button>{% endfor %}</div>
+{% for y, sems in tabs.items() %}<div class="syl {{ 'on' if y==3 else '' }}" id="y{{y}}">{% for sem, subs in sems %}<div class="sem"><h4><i class="fa-solid fa-book" style="color:var(--teal)"></i> Semester {{ ['','I','II','III','IV','V','VI'][sem] }} {% if cur[y]==sem %}<span class="badge b-green">CURRENT</span>{% endif %}</h4><ul>{% for s,pf in subs %}<li>{{s}} <span>{{pf}}</span></li>{% endfor %}</ul></div>{% endfor %}</div>{% endfor %}</section>
+
+<section class="sec" id="notices"><div class="head"><span class="tg"><i class="fa-solid fa-bell"></i> NOTICES &amp; EVENTS</span><h2>Latest Announcements</h2><p>Stay updated with BCA Department notices and upcoming events at {{C.name}}.</p></div>
+<div style="max-width:1100px;margin:auto">
+ <div class="ticker"><span class="live"><i class="fa-solid fa-bell"></i> LIVE</span><div style="overflow:hidden"><div class="scroll">{% for k in (1,2) %}{% for n in notices %}<span><b class="badge {{ 'b-red' if n.priority=='High' else 'b-orange' }}">{{n.priority}}</b> {{n.title}}</span>{% endfor %}{% endfor %}</div></div></div>
+ <div class="grid g21"><div><div class="carousel"><div class="track">{% for n in notices %}<div class="slide"><span class="badge b-teal">{{n.category}}</span><span class="badge {{ 'b-red' if n.priority=='High' else 'b-orange' if n.priority=='Medium' else '' }}">{{n.priority}}</span><span style="float:right;color:var(--muted);font-size:.78rem">{{n.created_at|dmy}}</span><h3>{{n.title}}</h3><p>{{n.content}}</p><div style="margin-top:14px;display:flex;justify-content:space-between;color:var(--muted);font-size:.76rem"><span>{{loop.index}}/{{loop.length}}</span><span><i class="fa-solid fa-user"></i> {{n.posted_by}}</span></div></div>{% endfor %}</div></div>
+  <div class="cnav"><button id="cprev"><i class="fa-solid fa-chevron-left"></i></button>{% for n in notices %}<i class="d"></i>{% endfor %}<button id="cnext"><i class="fa-solid fa-chevron-right"></i></button></div></div>
+ <div><h3 style="margin-bottom:12px">Upcoming Events</h3>{% for e in events %}<div class="ev"><div class="dt">{{ e.event_date|dmy('%d') }}<small>{{ e.event_date|dmy('%b')|upper }}</small></div><div style="flex:1"><b style="font-size:.86rem">{{e.title}}</b><small style="display:block;color:var(--muted);font-size:.72rem"><i class="fa-regular fa-clock"></i> {{e.event_time|hm}} <i class="fa-solid fa-location-dot"></i> {{e.venue}}</small></div><span style="font-size:.68rem;color:var(--blue)">{{ e.event_date|daysleft|lower }}</span></div>{% else %}<div class="empty">No upcoming events</div>{% endfor %}</div></div></div></section>
+
+<section class="sec alt"><div class="head"><span class="tg"><i class="fa-solid fa-door-open"></i> ACCESS</span><h2>Choose Your Portal</h2><p>Select your role to access your personalized dashboard.</p></div>
+<div class="portals"><div class="portal a"><div class="pi"><i class="fa-solid fa-shield-halved"></i></div><h3>Admin Portal</h3><p>Manage students, faculty, fees, hostel, library and all BCA modules.</p><a href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Admin Login</a></div>
+ <div class="portal f"><div class="pi"><i class="fa-solid fa-chalkboard-user"></i></div><h3>Faculty Portal</h3><p>Mark attendance, post assignments, upload materials, manage results.</p><a href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Faculty Login</a></div>
+ <div class="portal s"><div class="pi"><i class="fa-solid fa-user-graduate"></i></div><h3>Student Portal</h3><p>View attendance, assignments, results, fees, materials and notices.</p><a href="{{ url_for('login') }}"><i class="fa-solid fa-right-to-bracket"></i> Student Login</a></div></div></section>
+
+<footer class="pubfoot"><div class="cols"><div><div class="fb" style="display:flex;gap:10px;align-items:center;color:#fff;font-family:Syne;font-weight:800;margin-bottom:10px"><div class="brand-i" style="background:var(--teal)"><i class="fa-solid fa-graduation-cap"></i></div>BCA Smart Campus</div>Official digital portal of BCA Department, {{C.name}} (Code: {{C.code}}). {{C.trust}} Affiliated to {{C.university}}. BCA (CBCS) NEP 2020.</div>
+ <div><h6>QUICK LINKS</h6><a href="#features">Features</a><a href="#fees">Fee Structure</a><a href="#faculty">Faculty</a><a href="#syllabus">Syllabus</a><a href="#notices">Notices</a><a href="{{ url_for('campus_map') }}">Campus Map</a></div>
+ <div><h6>PORTALS</h6><a href="{{ url_for('login') }}">Admin Login</a><a href="{{ url_for('login') }}">Faculty Login</a><a href="{{ url_for('login') }}">Student Login</a></div>
+ <div><h6>COLLEGE INFO</h6><a>{{C.name}}</a><a>{{C.address}}</a><a>Code: {{C.code}}</a><a>{{C.web}}</a></div></div>
+ <div style="border-top:1px solid rgba(255,255,255,.08);margin-top:24px;padding-top:14px;font-size:.72rem">© {{ now.year }} BCA Smart Campus — {{C.name}} — <i class="fa-solid fa-heart" style="color:#ec4899"></i> Designed &amp; Developed by <b>Shifa Mujawar</b></div></footer>
+<script src="{{ url_for('static', filename='app.js') }}"></script></body></html>

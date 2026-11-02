@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block body %}
+<div class="crumb">Dashboard / <b>Study Materials</b></div>
+{% if role!='student' %}<form method="post" enctype="multipart/form-data" class="card"><div class="card-h"><span><i class="fa-solid fa-upload"></i>Upload Study Material</span></div><div class="card-b">
+<div class="dropzone"><i class="fa-solid fa-cloud-arrow-up" style="font-size:1.8rem"></i><br><span>Click or drag a file here (PDF, PPT, DOC, ZIP, MP4)</span><input type="file" name="material_file" id="material_file" hidden></div>
+<div class="fgrid"><div class="fg"><label>Title <em>*</em></label><input name="title" required></div><div class="fg"><label>Subject <em>*</em></label><select name="subject">{% for s in all_subjects %}<option>{{s}}</option>{% endfor %}</select></div>
+<div class="fg"><label>Year</label><select name="year">{% for y in (1,2,3) %}<option value="{{y}}" {{ 'selected' if y==3 }}>Year {{y}}</option>{% endfor %}</select></div><div class="fg"><label>Section</label><select name="section"><option value="">All</option>{% for s in sections %}<option>{{s}}</option>{% endfor %}</select></div></div>
+<div class="fg"><label>Description</label><input name="description"></div><button class="btn"><i class="fa-solid fa-upload"></i> Upload</button></div></form>{% endif %}
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-folder-open"></i>Study Materials</span><span class="badge b-blue">{{rows|length}} files</span></div><div class="mats">
+{% for m in rows %}<div class="mat"><div style="display:flex;gap:10px;align-items:center"><div class="ico">{{m.file_type}}</div><div><b>{{m.title}}</b><small style="display:block;color:var(--muted)">{{m.subject}} · Year {{m.year}}</small></div></div>
+<p style="margin:10px 0;font-size:.78rem;color:var(--muted)"><i class="fa-solid fa-user"></i> {{m.fname or 'Faculty'}} · {{m.file_size}}<br>{{m.description}}</p>
+{% if m.file_path %}<a class="btn btn-o btn-sm" target="_blank" href="{{ url_for('material_file', name=m.file_path) }}"><i class="fa-solid fa-eye"></i> View</a> <a class="btn btn-sm" href="{{ url_for('material_file', name=m.file_path, dl=1) }}"><i class="fa-solid fa-download"></i> Download</a>{% else %}<span class="badge">No file attached</span>{% endif %}
+{% if role!='student' %} {{ delbtn(url_for('materials_delete', mid=m.id),'Delete this material?') }}{% endif %}</div>
+{% else %}{{ empty('fa-folder-open','No study materials yet.') }}{% endfor %}</div></div>{% endblock %}

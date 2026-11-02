@@ -1,0 +1,13 @@
+{% extends 'base.html' %}{% block body %}
+<div class="crumb">Dashboard / <b>Assignments</b></div>
+<form method="post" class="card"><input type="hidden" name="post_assignment" value="1"><div class="card-h"><span><i class="fa-solid fa-circle-plus" style="color:var(--purple)"></i>Post New Assignment</span></div><div class="card-b"><div class="fgrid">
+<div class="fg"><label>Title <em>*</em></label><input name="title" placeholder="Assignment title" required></div>
+<div class="fg"><label>Year <em>*</em></label><select name="year">{% for y in (1,2,3) %}<option value="{{y}}" {{ 'selected' if y==3 }}>Year {{y}}</option>{% endfor %}</select></div>
+<div class="fg"><label>Subject <em>*</em></label><select name="subject">{% for s in all_subjects %}<option {{ 'selected' if s=='Python' }}>{{s}}</option>{% endfor %}</select></div>
+<div class="fg"><label>Section</label><select name="section"><option value="">All Sections</option>{% for s in sections %}<option>{{s}}</option>{% endfor %}</select></div>
+<div class="fg"><label>Due Date <em>*</em></label><input type="date" name="due_date" required></div><div class="fg"><label>Max Marks</label><input type="number" name="max_marks" value="10"></div>
+<div class="fg"><label>Priority</label><select name="priority"><option>High</option><option selected>Medium</option><option>Low</option></select></div></div>
+<div class="fg"><label>Description / Instructions</label><textarea name="description" placeholder="Describe the assignment task..."></textarea></div><button class="btn"><i class="fa-solid fa-paper-plane"></i> Post Assignment</button></div></form>
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-list-check"></i>Posted Assignments</span></div><div class="tw"><table><thead><tr><th>Title</th><th>Subject</th><th>Year</th><th>Due</th><th>Marks</th><th>Priority</th><th>Submissions</th><th></th></tr></thead><tbody>
+{% for a in rows %}<tr><td><b>{{a.title}}</b><small>{{a.fname}}</small></td><td>{{a.subject}}</td><td><span class="badge b-blue">Year {{a.year}}{{ ' '+a.section if a.section }}</span></td><td>{{a.due_date|dmy}}<small>{{a.due_date|daysleft}}</small></td><td>{{a.max_marks}}</td><td>{{ prio(a.priority) }}</td><td><a class="btn btn-o btn-sm" href="{{ url_for('assignment_subs', aid=a.id) }}">{{a.subs}} submitted</a></td><td>{{ delbtn(url_for('assignment_delete', aid=a.id),'Delete assignment and its submissions?') }}</td></tr>
+{% else %}<tr><td colspan="8">{{ empty('fa-list-check','No assignments posted yet.') }}</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}

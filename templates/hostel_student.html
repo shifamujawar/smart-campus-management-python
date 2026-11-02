@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block body %}
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-bed"></i>My Hostel Room</span></div><div class="card-b">
+{% if al %}<div class="stats"><div class="stat"><div class="ic" style="background:#cffafe;color:#0891b2"><i class="fa-solid fa-door-open"></i></div><div><b>{{al.room_number}}</b><span>Room</span></div></div><div class="stat"><div><b style="font-size:1.1rem">{{al.block}}</b><span>{{al.room_type}} room</span></div></div><div class="stat"><div><b style="font-size:1.1rem">{{al.allotment_date|dmy}}</b><span>Allotted on</span></div></div></div>
+{% else %}{{ empty('fa-bed','No hostel room allotted. Contact the admin office.') }}{% endif %}</div></div>{% endblock %}

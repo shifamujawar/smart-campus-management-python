@@ -1,0 +1,4 @@
+{% extends 'base.html' %}{% block body %}
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-file-medical" style="color:var(--red)"></i>Student Leave Requests</span></div><div class="tw"><table><thead><tr><th>Student</th><th>Type</th><th>From – To</th><th>Reason</th><th>Status</th><th>Action</th></tr></thead><tbody>
+{% for l in rows %}<tr><td><b>{{l.name}}</b><small>Year {{l.year}} · {{l.student_id}}</small></td><td>{{l.leave_type}}</td><td>{{l.from_date|dmy}} → {{l.to_date|dmy}}</td><td style="max-width:240px">{{l.reason}}</td><td>{{ status(l.status) }}</td>
+<td>{% if l.status=='Pending' %}<a class="btn btn-g btn-sm" href="{{ url_for('leave_act', lid=l.id, act='approve') }}">Approve</a> <a class="btn btn-r btn-sm" href="{{ url_for('leave_act', lid=l.id, act='reject') }}">Reject</a>{% endif %}</td></tr>{% else %}<tr><td colspan="6">{{ empty('fa-circle-check','No leave requests.') }}</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}

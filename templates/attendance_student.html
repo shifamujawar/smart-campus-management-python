@@ -1,0 +1,6 @@
+{% extends 'base.html' %}{% block body %}
+<div class="crumb">Student / <b>Attendance</b></div>
+<div class="stats">{{ stat('fa-calendar','#dbeafe','#2563eb',tot,'Total Classes') }}{{ stat('fa-check','#dcfce7','#16a34a',pr,'Present') }}{{ stat('fa-xmark','#fee2e2','#dc2626',ab,'Absent') }}{{ stat('fa-percent','#cffafe','#0891b2',overall|string+'%','Overall') }}</div>
+<div class="card"><div class="card-h"><span><i class="fa-solid fa-chart-simple"></i>Subject-wise Attendance</span><small>{{rows|length}} subject(s)</small></div><div class="tw"><table><thead><tr><th>Subject</th><th>Total Classes</th><th>Present</th><th>Absent</th><th>Late</th><th>Attendance %</th><th>Status</th></tr></thead><tbody>
+{% for r in rows %}{% set p = ((r.present+r.late)*100/r.total)|round|int %}<tr><td><b>{{r.subject}}</b></td><td>{{r.total}}</td><td><span class="badge b-green">{{r.present}}</span></td><td><span class="badge b-red">{{r.absent}}</span></td><td><span class="badge b-orange">{{r.late}}</span></td><td style="min-width:160px">{{ pbar(p) }}</td><td>{% if p>=75 %}<span class="badge b-green">✓ Safe</span>{% else %}<span class="badge b-red">⚠ Low</span>{% endif %}</td></tr>
+{% else %}<tr><td colspan="7">{{ empty('fa-calendar-xmark','No attendance records yet.') }}</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}

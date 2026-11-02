@@ -1,0 +1,12 @@
+{% extends 'base.html' %}{% block body %}
+<div class="grid g21"><div class="card"><div class="card-h"><span><i class="fa-solid fa-chalkboard-user"></i>BCA Faculty ({{rows|length}})</span><form class="searchbox"><i class="fa-solid fa-magnifying-glass"></i><input name="q" placeholder="Search..."></form></div>
+<div class="tw"><table><thead><tr><th>#</th><th>Faculty ID</th><th>Name</th><th>Designation</th><th>Contact</th><th>Actions</th></tr></thead><tbody>
+{% for f in rows %}<tr><td>{{loop.index}}</td><td>{{f.faculty_id}}</td><td><b>{{f.name}}</b><small>{{f.qualification}} — Subjects: {{f.subjects}}</small></td><td>{{f.designation}}</td><td>{{f.email}}<small>{{f.phone}}</small></td><td>{{ delbtn(url_for('faculty_delete', fid=f.faculty_id),'Delete this faculty and login?') }}</td></tr>{% endfor %}</tbody></table></div></div>
+<form method="post" class="card"><div class="card-h"><span><i class="fa-solid fa-plus"></i>Add BCA Faculty</span></div><div class="card-b">
+<div class="fg"><label>Faculty ID <em>*</em></label><input name="faculty_id" placeholder="e.g. BCA-FAC001" required></div><div class="fg"><label>Full Name <em>*</em></label><input name="name" placeholder="Prof. / Dr. Full Name" required></div>
+<div class="fg"><label>Email <em>*</em></label><input type="email" name="email" placeholder="faculty@college.edu" required></div><div class="fg"><label>Phone</label><input name="phone" placeholder="Phone number"></div>
+<div class="fg"><label>Designation</label><select name="designation">{% for d in designations %}<option>{{d}}</option>{% endfor %}</select></div><div class="fg"><label>Qualification</label><input name="qualification" placeholder="e.g. MCA, M.Tech, Ph.D"></div>
+<div class="fg"><label>Subjects Teaching</label><input name="subjects" placeholder="e.g. DBMS, Java, Python"></div>
+<div class="badge b-green" style="display:block;padding:10px;margin-bottom:14px">Department: BCA (auto-assigned)</div>
+<div class="card" style="background:#f5f3ff;border-color:#ddd6fe"><div class="card-b"><label><input type="checkbox" name="create_login" id="create_login" value="1"> <b>Create Login Account</b></label><div id="login_box" style="display:none;margin-top:10px"><div class="fg"><input name="username" placeholder="username (default: faculty id)"></div><div class="fg"><input name="password" placeholder="password (default: faculty123)"></div></div></div></div>
+<button class="btn" style="width:100%;justify-content:center"><i class="fa-solid fa-plus"></i> Add Faculty</button></div></form></div>{% endblock %}

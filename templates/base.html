@@ -1,0 +1,29 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>{{ title or 'Smart Campus' }} — BCA Smart Campus</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@500;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}"></head>
+<body class="role-{{ role }}">{% from '_macros.html' import stat, pbar, delbtn, empty, prio, status, student_opts %}
+<div class="app">
+<aside class="sidebar">
+ <div class="brand"><div class="brand-i"><i class="fa-solid fa-graduation-cap"></i></div><div><div class="brand-t">SmartCampus</div><div class="brand-s">{{ ROLE_TITLE[role] }}</div></div></div>
+ <nav class="nav">
+  {% for sec, items in MENU %}<h6>{{ sec }}</h6>
+   {% for label, icon, ep, pre in items %}<a href="{{ url_for(ep, tab='results') if label=='Marks / Results' else url_for(ep) }}" class="{{ 'on' if request.endpoint and request.endpoint.startswith(pre) and not (label=='Exam Schedule' and role=='faculty') and not (label=='Marks / Results' and request.args.get('tab')!='results') else '' }}"><i class="fa-solid {{ icon }}"></i>{{ label }}</a>{% endfor %}
+  {% endfor %}
+  <h6>ACCOUNT</h6><a href="{{ url_for('logout') }}" class="logout"><i class="fa-solid fa-right-from-bracket"></i>Logout</a>
+ </nav>
+ <div class="side-user"><div class="av"><i class="fa-solid {{ ROLE_ICON[role] }}"></i></div><div>{{ session.name }}<small>{{ role|capitalize }}</small></div></div>
+</aside>
+<div class="main">
+ <header class="topbar"><button class="burger"><i class="fa-solid fa-bars"></i></button><h2>{{ title }}</h2>
+  <div class="chip"><i class="fa-solid fa-calendar-day"></i>{{ now.strftime('%a, %d %b %Y') }}</div>
+  <a class="bell" href="{{ url_for('notices') }}"><i class="fa-solid fa-bell"></i>{% if alerts %}<b>{{ alerts }}</b>{% endif %}</a>
+  <div class="userchip"><div class="av"><i class="fa-solid {{ ROLE_ICON[role] }}"></i></div><span>{{ session.name }} <small>{{ role|capitalize }}</small></span></div></header>
+ <div class="content">
+  {% with m = get_flashed_messages(with_categories=true) %}{% for c, msg in m %}<div class="flash {{c}}">{{ msg }}</div>{% endfor %}{% endwith %}
+  {% block body %}{% endblock %}
+ </div>
+ {% include '_footer.html' %}
+</div></div>
+<script src="{{ url_for('static', filename='app.js') }}"></script></body></html>

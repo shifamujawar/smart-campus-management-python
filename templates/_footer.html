@@ -1,0 +1,17 @@
+<footer class="foot">
+ <div class="cols">
+  <div><div class="fb"><div class="brand-i" style="width:34px;height:34px"><i class="fa-solid fa-graduation-cap"></i></div>BCA Smart Campus <small style="font-weight:400;font-size:.62rem;color:#7d90a8">{{C.name}}</small></div>
+   Official BCA Department Portal.<br>{{C.university}}<br>BCA (CBCS) NEP 2020</div>
+  <div><h6>QUICK LINKS</h6>
+   <a href="{{ url_for('dashboard') }}"><i class="fa-solid fa-house"></i> Dashboard</a>
+   {% if role=='student' %}<a href="{{ url_for('attendance') }}"><i class="fa-solid fa-calendar-check"></i> Attendance</a><a href="{{ url_for('assignments') }}"><i class="fa-solid fa-list-check"></i> Assignments</a><a href="{{ url_for('fees') }}"><i class="fa-solid fa-credit-card"></i> Fee Status</a><a href="{{ url_for('library') }}"><i class="fa-solid fa-book"></i> Library</a><a href="{{ url_for('notices') }}"><i class="fa-solid fa-bell"></i> Notices</a>
+   {% elif role=='faculty' %}<a href="{{ url_for('attendance') }}"><i class="fa-solid fa-calendar-check"></i> Mark Attendance</a><a href="{{ url_for('assignments') }}"><i class="fa-solid fa-list-check"></i> Assignments</a><a href="{{ url_for('notices') }}"><i class="fa-solid fa-bell"></i> Notices</a><a href="{{ url_for('my_students') }}"><i class="fa-solid fa-user-group"></i> Students</a><a href="{{ url_for('campus_map') }}"><i class="fa-solid fa-map-location-dot"></i> Campus Map</a>
+   {% else %}<a href="{{ url_for('students_list') }}"><i class="fa-solid fa-user-group"></i> Students</a><a href="{{ url_for('attendance') }}"><i class="fa-solid fa-calendar-check"></i> Attendance</a><a href="{{ url_for('fees') }}"><i class="fa-solid fa-credit-card"></i> Fees</a><a href="{{ url_for('notices') }}"><i class="fa-solid fa-bell"></i> Notices</a><a href="{{ url_for('campus_map') }}"><i class="fa-solid fa-map-location-dot"></i> Campus Map</a>{% endif %}</div>
+  <div><h6>COLLEGE INFO</h6>
+   <a><i class="fa-solid fa-building-columns"></i> {{C.name}}</a><a><i class="fa-solid fa-location-dot"></i> Demo City, Dist. Demo, Maharashtra</a>
+   <a><i class="fa-solid fa-id-badge"></i> College Code: {{C.code}}</a><a><i class="fa-solid fa-graduation-cap"></i> BCA (CBCS) NEP 2020</a>
+   <a><i class="fa-solid fa-calendar"></i> Academic Year {{C.academic_year}}</a><a><i class="fa-solid fa-clock"></i> {{ now.strftime('%d %b %Y · %I:%M %p') }}</a></div>
+ </div>
+ <div class="copy">© {{ now.year }} <b>BCA Smart Campus</b> — {{C.name}} — All rights reserved. <i class="fa-solid fa-heart"></i> Designed &amp; Developed by <b>Shifa Mujawar</b>
+  <span style="margin-left:10px;color:#4b607a"><i class="fa-brands fa-python"></i> Flask · <i class="fa-brands fa-html5"></i> <i class="fa-brands fa-css3-alt"></i> <i class="fa-brands fa-js"></i></span></div>
+</footer>

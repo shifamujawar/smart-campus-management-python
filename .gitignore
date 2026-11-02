@@ -1,0 +1,5 @@
+__pycache__/
+*.pyc
+smart_campus.db
+uploads/materials/*
+!uploads/materials/.gitkeep

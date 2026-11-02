@@ -1,0 +1,3 @@
+{% extends 'base.html' %}{% block body %}
+<div class="crumb">Student / <b>Timetable</b></div><div class="card"><div class="card-h"><span><i class="fa-solid fa-table-cells"></i>Weekly Timetable — Year {{s.year}}, Section {{s.section}}</span></div><div class="tw"><table><thead><tr><th>Day</th><th>Lectures</th></tr></thead><tbody>
+{% for d in days %}<tr {{ 'style=background:#f0f9ff' if d==now.strftime('%A') }}><td><b>{{d}}</b></td><td>{% for r in rows if r.day_of_week==d %}<span class="badge b-blue" style="margin:3px;padding:6px 12px"><b>{{r.subject}}</b> · {{r.start_time}}-{{r.end_time}} · {{r.room}}</span>{% endfor %}</td></tr>{% endfor %}</tbody></table></div></div>{% endblock %}
